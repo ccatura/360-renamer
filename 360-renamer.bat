@@ -67,7 +67,8 @@ for %%a in (%1\*) do (
 )
 ENDLOCAL
 
-
+echo That should do it!
+pause
 
 
 
@@ -78,18 +79,14 @@ ENDLOCAL
 exit
 :deleteextras
 
-:: FIGURE OUT WHICH FRAMES TO DELETE
+:: FIGURE OUT WHICH FRAMES TO DELETE AND DELETES THEM
 set /a framedifference=%framesinfolder% - %framelimit%
-
-echo there are %framedifference% frames too many.
-
 set /a deleteinterval=%framelimit% / %framedifference%
 set /a startdeleteat=%deleteinterval% / 2
 echo.
 
 
 for /l %%g IN (%startdeleteat%, %deleteinterval%, %framelimit%) do (
-    echo G Count: %%g
     SETLOCAL ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
     set count=1
 
@@ -103,21 +100,9 @@ for /l %%g IN (%startdeleteat%, %deleteinterval%, %framelimit%) do (
             del "!origname!"
         )
 
-        if !count! LSS 10 (
-            set renamed=img0!count!.jpg
-        ) else (
-            set renamed=img!count!.jpg
-        )
-
-        echo Original Name:      !origname!
-        echo    Renamed To:      !renamed!
-        rename "!origname!" "!renamed!"
-        echo .
-
         set /a count+=1
     )
     ENDLOCAL
 )
-echo thats it
-pause
+
 goto :readytogo
