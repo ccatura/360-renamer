@@ -16,8 +16,8 @@ if %framesinfolder% LSS %framelimit% (
 )
 
 :: A FEW FRAMES OVER, WE WILL FIX BY DELETING SOME
-if %framesinfolder% GEQ %framelimit% if %framesinfolder% LEQ %toomany% (
-    echo There are too many frames. 360 Renamer will delete some frames to be compliant.
+if %framesinfolder% GTR %framelimit% if %framesinfolder% LEQ %toomany% (
+    echo There are too many frames. 360 Renamer will delete some frames to be compliant, then prepare your 360.
     echo.
     pause
     goto :deleteextras
@@ -30,6 +30,7 @@ if %framesinfolder% GTR %toomany% (
     pause
     exit
 )
+echo Perfect! We will now rename your frames and prepare your 360.
 pause
 :readytogo
 
