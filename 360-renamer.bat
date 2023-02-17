@@ -1,8 +1,40 @@
 @echo off
 
+set /a framelimit = 48
+set /a toomany = %framelimit% + 4
+
+:: GETS COUNT OF FILES IN THE FOLDER
+set /a cnt=0
+for %%A in (%1\*.jpg) do set /a cnt+=1
+
+if %cnt% LSS %framelimit% (
+    echo There are not enough frames. Please re-render your video with a slightly lower step count.
+    echo.
+    pause
+    exit
+)
+
+if %cnt% GEQ %framelimit% if %cnt% LEQ %toomany% (
+    echo There are too many frames. 360 Renamer will delete some frames to be compliant.
+    echo.
+    pause
+    goto :deleteextras
+)
+
+if %cnt% GTR %toomany% (
+    echo There are too many frames for 360 Renamer to fix. Please re-render your video with a slightly higher step count.
+    echo.
+    pause
+    exit
+)
+pause
+:readytogo
+
+
+
 :: RENAMES ALL IMAGES TO PROPER CONVENTION FOR 360 FOLDER
 SETLOCAL ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
-set /a count=1
+set count=1
 
 for %%a in (%1\*) do (
     set thepath=%%~pa
@@ -26,3 +58,8 @@ for %%a in (%1\*) do (
 ENDLOCAL
 
 
+exit
+:deleteextras
+echo We deleted shit for you!
+pause
+goto :readytogo
