@@ -1,7 +1,12 @@
 @echo off
 
-set /a framelimit = 48
-set /a toomany = %framelimit% + 4
+set /a framelimit=48
+set /a toomany=%framelimit% + 4
+set templatestring=360_TEMPLATE
+set templatefolder=%templatestring%
+set imagesfolder=%templatestring%\%templatestring%\images\lv2
+set htmlfile=%templatestring%.html
+set stringtoreplace=%templatestring%
 
 :: GETS COUNT OF FILES IN THE FOLDER
 set /a framesinfolder=0
@@ -32,15 +37,11 @@ if %framesinfolder% GTR %toomany% (
 )
 echo Perfect! We will now rename your frames and prepare your 360.
 pause
+
+
+
+
 :readytogo
-
-
-
-
-
-
-
-
 
 :: RENAMES ALL IMAGES TO PROPER CONVENTION FOR 360 FOLDER
 SETLOCAL ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
@@ -67,8 +68,27 @@ for %%a in (%1\*) do (
 )
 ENDLOCAL
 
-echo That should do it!
+
+
+
+
+
+
+
+
+:: THIS WILL COPY OVER THE 360 TEMPLATE FOLDER
+set thispath=%1
+set thispath
+:: REMOVES THE QUOTES FROM THE STRING
+set thispath=%thispath:"=%
+set thispath
+xcopy %templatefolder% "%thispath%\" /s /e
+
+
 pause
+
+
+
 
 
 
