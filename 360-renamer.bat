@@ -87,6 +87,36 @@ set thispath=%thispath:"=%
 set thispath
 xcopy %templatefolder% "%thispath%\%thesku%\" /s /e
 
+:: RENAMES THE IMAGES FOLDER STRUCTURE TO THE SKU NAME
+rename "%thispath%\%thesku%\%templatestring%\" "%thesku%"
+
+:: RENAMES THE HTML FILE TO THE SKU NAME
+rename "%thispath%\%thesku%\%templatestring%.html" "%thesku%.html"
+
+
+
+
+
+pause
+
+
+
+(setlocal enabledelayedexpansion
+for /F "tokens=* delims=" %%a in (%thispath%\%thesku%\%thesku%.html) do (
+    set x=%%a
+    if not "!x:360_TEMPLATE=!"=="!x!" (
+        :: REPLACE 360_TEMPLATE WITH SKU
+        set x=!x! & echo !x:360_TEMPLATE=%thesku%!
+    ) else (
+        echo !x!
+    )
+))>"%thispath%\%thesku%\%thesku%_new.html"
+
+del "%thispath%\%thesku%\%thesku%.html"
+ren "%thispath%\%thesku%\%thesku%_new.html" %thesku%.html
+
+endlocal
+
 
 pause
 
