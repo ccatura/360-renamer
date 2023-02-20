@@ -8,13 +8,15 @@ set imagesfolder=%templatestring%\%templatestring%\images\lv2
 set htmlfile=%templatestring%.html
 set stringtoreplace=%templatestring%
 
+set /p thesku=Please enter SKU (All caps without size): 
+
 :: GETS COUNT OF FILES IN THE FOLDER
 set /a framesinfolder=0
 for %%A in (%1\*.jpg) do set /a framesinfolder+=1
 
 :: CHECKS IF FRAME COUNT IS CORRECT
 if %framesinfolder% LSS %framelimit% (
-    echo There are not enough frames. Please re-render your video with a slightly lower step count.
+    echo There are only %framesinfolder% frames, which is not enough. Please re-render your video with a slightly lower step count.
     echo.
     pause
     exit
@@ -22,7 +24,7 @@ if %framesinfolder% LSS %framelimit% (
 
 :: A FEW FRAMES OVER, WE WILL FIX BY DELETING SOME
 if %framesinfolder% GTR %framelimit% if %framesinfolder% LEQ %toomany% (
-    echo There are too many frames. 360 Renamer will delete some frames to be compliant, then prepare your 360.
+    echo There are %framesinfolder% frames, which is too many. 360 Renamer will delete some frames to be compliant, then prepare your 360.
     echo.
     pause
     goto :deleteextras
@@ -30,12 +32,13 @@ if %framesinfolder% GTR %framelimit% if %framesinfolder% LEQ %toomany% (
 
 :: TOO MANY FRAMES OVER. NEED TO RE-RENDER FRAMES.
 if %framesinfolder% GTR %toomany% (
-    echo There are too many frames for 360 Renamer to fix. Please re-render your video with a slightly higher step count.
+    echo There are %framesinfolder% frames, which is too many for 360 Renamer to fix. Please re-render your video with a slightly higher step count.
     echo.
     pause
     exit
 )
-echo Perfect! We will now rename your frames and prepare your 360.
+echo Perfect! There are %framesinfolder% frames. We will now rename your frames and prepare your 360.
+echo.
 pause
 
 
@@ -82,7 +85,7 @@ set thispath
 :: REMOVES THE QUOTES FROM THE STRING
 set thispath=%thispath:"=%
 set thispath
-xcopy %templatefolder% "%thispath%\" /s /e
+xcopy %templatefolder% "%thispath%\%thesku%\" /s /e
 
 
 pause
