@@ -97,10 +97,9 @@ rename "%thispath%\%thesku%\%templatestring%.html" "%thesku%.html"
 
 
 
-pause
 
 
-
+:: THIS SECTION FINDS THE 360_TEMPLATE STRING WITHING THE TEMPLATE HTML AND REPLACES IT WITH THE SKU
 (setlocal enabledelayedexpansion
 for /F "tokens=* delims=" %%a in (%thispath%\%thesku%\%thesku%.html) do (
     set x=%%a
@@ -112,12 +111,23 @@ for /F "tokens=* delims=" %%a in (%thispath%\%thesku%\%thesku%.html) do (
     )
 ))>"%thispath%\%thesku%\%thesku%_new.html"
 
+:: DELETES ORIGINAL HTML TEMPLATE FILE
 del "%thispath%\%thesku%\%thesku%.html"
+
+:: RENAMES NEW HTML FILE WITHOUT 'NEW' SUFFIX
 ren "%thispath%\%thesku%\%thesku%_new.html" %thesku%.html
+
+:: MOVES ALL JPGs INTO PROPER FOLDER FOR VIEWING 360
+move "%thispath%\*.jpg" "%thispath%\%thesku%\%thesku%\images\lv2\"
+
+:: DELETES THE EMPTY PLACEBOLDER FILE
+del "%thispath%\%thesku%\%thesku%\images\lv2\empty.txt"
 
 endlocal
 
 
+echo Everything should be cool!
+echo.
 pause
 
 
