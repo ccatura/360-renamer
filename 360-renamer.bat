@@ -8,6 +8,7 @@ set imagesfolder=%templatestring%\%templatestring%\images\lv2
 set htmlfile=%templatestring%.html
 set stringtoreplace=%templatestring%
 
+
 set /p thesku=Please enter SKU (All caps without size): 
 
 :: GETS COUNT OF FILES IN THE FOLDER
